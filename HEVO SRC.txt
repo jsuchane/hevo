@@ -1,0 +1,45 @@
+HEVO SRC
+
+[oracle@vm-oracle admin]$ . oraenv
+ORACLE_SID = [cdb2] ?
+The Oracle base remains unchanged with value /u01/app/oracle
+[oracle@vm-oracle admin]$ sqlplus hevo
+
+SQL*Plus: Release 12.1.0.2.0 Production on Mon Mar 25 06:53:34 2024
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Enter password:
+Last Successful login time: Mon Mar 25 2024 06:46:15 -07:00
+
+Connected to:
+Oracle Database 12c Standard Edition Release 12.1.0.2.0 - 64bit Production
+
+/* DDL
+create table qatest (
+  id integer primary key,
+  last_modified timestamp default current_timestamp
+);
+
+create or replace trigger trg_latest_mod
+before update on qatest
+for each row
+begin
+   :new.last_modified := current_timestamp;
+end;
+*/
+
+SQL> select * from qatest;
+
+        ID
+----------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+         1
+25-MAR-24 06.39.41.720861 AM
+
+         2
+25-MAR-24 06.39.50.516357 AM
+
+         3
+25-MAR-24 06.45.50.082960 AM
